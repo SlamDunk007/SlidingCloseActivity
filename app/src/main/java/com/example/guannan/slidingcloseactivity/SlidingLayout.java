@@ -50,9 +50,9 @@ public class SlidingLayout extends FrameLayout {
 
         mActivity = activity;
         ViewGroup decorView= (ViewGroup) mActivity.getWindow().getDecorView();
-        View child = decorView.getChildAt(0);
+        View child = decorView.getChildAt(0);   //我们DecorView包裹的布局
         decorView.removeView(child);
-        this.addView(child);
+        this.addView(child);    //将我们DecorView包裹的布局添加到我们自定义的SlidingLayout当中
         decorView.addView(this);
     }
 
@@ -138,6 +138,15 @@ public class SlidingLayout extends FrameLayout {
                 break;
             case MotionEvent.ACTION_UP:
 
+                mConsumed = false;
+                mTouchDownX = mLastTouchX = mLastTouchY = 0;
+                if(-getScrollX()<getWidth()/2){ //偏移量不到屏幕宽度的一般，就回到最初的位置
+                    scrollBack();
+                }else{
+                    scrollFinish();
+                }
+                break;
+            case MotionEvent.ACTION_CANCEL:
                 mConsumed = false;
                 mTouchDownX = mLastTouchX = mLastTouchY = 0;
                 if(-getScrollX()<getWidth()/2){ //偏移量不到屏幕宽度的一般，就回到最初的位置
